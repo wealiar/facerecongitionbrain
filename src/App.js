@@ -8,11 +8,7 @@ import FaceRecongition from './components/faceRecongition/FaceRecongition';
 import Signin from './components/signin/Signin';
 import Register from './components/register/Register';
 import Particles from 'react-particles-js';
-import Clarifai from 'clarifai';
-
-const app = new Clarifai.App({
-  apiKey: '5b81e0dd57ba4267b08b65424ee141d0'
-});
+import SMART_BRAIN_API_URL from './common/project_properties';
 
 const particlesOptions = {
   particles: {
@@ -84,14 +80,16 @@ class App extends Component {
 
   onPictureSubmit = () => {
     this.setState({ imageUrl: this.state.input });
-    app.models
-      .predict(
-        Clarifai.FACE_DETECT_MODEL,
-        this.state.input
-      )
+    fetch(SMART_BRAIN_API_URL + '/imageurl', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        input: this.state.input
+      })
+    }).then(response => response.json()) 
       .then(response => {
         if (response) {
-          fetch('http://localhost:3000/image', {
+          fetch(SMART_BRAIN_API_URL + '/image', {
             method: 'put',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

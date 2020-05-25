@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import SMART_BRAIN_API_URL from '../../common/project_properties';
 
 class Signin extends Component {
     constructor(props) {
@@ -18,15 +19,10 @@ class Signin extends Component {
         this.setState({ signInPassword: event.target.value });
     }
 
-
-    // const getData = async function () {
-    //   const response = await fetch('http://localhost:3000');
-    //   const data = await response.json();
-    //   console.log(data);
-    // }
-
     onSubmitSignIn = () => {
-        fetch('http://localhost:3000/signin', {
+        const urlCheck = SMART_BRAIN_API_URL + '/signin';
+        console.log('urlCheck', urlCheck); 
+        fetch(SMART_BRAIN_API_URL + '/signin', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
